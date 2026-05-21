@@ -31,8 +31,17 @@ dependencies:
   flutter:
     sdk: flutter
   
+  # Used for HTTP communication with the NestJS backend.
+  # Handles GET and POST requests such as login and fetching citizens/measurements.
   http: ^1.2.2
+
+  # Used for realtime communication through WebSocket.
+  # Allows the app to receive critical measurements instantly without polling.
   socket_io_client: ^3.0.0
+
+  # Used for creating graphs and charts in Flutter.
+  # Displays pulse and SpO2 measurement history visually.
+  fl_chart: ^0.69.0
   
 
   # The following adds the Cupertino Icons font to your application.
