@@ -6,21 +6,11 @@ import 'api_service.dart';
 
 /// The service layer keeps HTTP logic away from the UI.
 class AuthService {
+
   /// Logs in the user.
   /// Right now this method uses fake data so the frontend can be tested without backend.
   Future<String> login(String username, String password) async {
-    // -------------------------------------------------------------------------
-    // FAKE DATA FOR FRONTEND TESTING WITHOUT BACKEND
-    // -------------------------------------------------------------------------
-    await Future.delayed(const Duration(seconds: 1));
-
-    return 'fake-jwt-token';
-
-    // -------------------------------------------------------------------------
-    // REAL BACKEND CODE - USE THIS WHEN NESTJS BACKEND IS READY
-    // -------------------------------------------------------------------------
-    /*
-    final url = Uri.parse('${ApiService.baseUrl}/auth/login');
+    final url = Uri.parse('${ApiService.baseUrl}/authentication/login');
 
     final response = await http.post(
       url,
@@ -40,6 +30,5 @@ class AuthService {
     final data = jsonDecode(response.body);
 
     return data['accessToken'];
-    */
   }
 }
