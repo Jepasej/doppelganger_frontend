@@ -4,6 +4,7 @@ import '../services/socket_service.dart';
 import 'citizen_list_screen.dart';
 
 /// Login screen for healthcare staff.
+
 /// StatefulWidget is used because the input fields and loading state can change.
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

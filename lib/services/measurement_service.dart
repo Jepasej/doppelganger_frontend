@@ -4,8 +4,10 @@ import '../models/measurement.dart';
 import 'api_service.dart';
 
 /// Service class responsible for measurements.
+
 /// This class handles HTTP requests related to vital measurements.
 class MeasurementService {
+
   /// Gets measurements for one citizen.
   /// Right now this method uses fake data so the frontend can be tested without backend.
   Future<List<Measurement>> getMeasurementsForCitizen(

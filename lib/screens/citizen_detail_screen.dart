@@ -6,6 +6,7 @@ import '../widgets/measurement_card.dart';
 import '../widgets/measurement_chart.dart';
 
 /// Detail screen for one citizen.
+
 /// Shows citizen information, latest measurements and a chart.
 class CitizenDetailScreen extends StatefulWidget {
   final Citizen citizen;

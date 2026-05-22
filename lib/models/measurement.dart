@@ -1,4 +1,5 @@
 /// Model class representing one vital measurement.
+
 /// Measurements are sent from Raspberry Pi to backend and then to Flutter.
 class Measurement {
   final String id;

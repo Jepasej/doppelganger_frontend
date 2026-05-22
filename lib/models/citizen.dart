@@ -1,4 +1,5 @@
 /// Model class representing a citizen.
+
 /// The model is used to convert JSON from the backend into a Dart object.
 class Citizen {
   final String id;

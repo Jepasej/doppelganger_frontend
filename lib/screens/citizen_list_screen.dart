@@ -5,6 +5,7 @@ import '../widgets/citizen_card.dart';
 import 'citizen_detail_screen.dart';
 
 /// Screen that shows all citizens.
+
 /// This is the normal screen shown after login.
 class CitizenListScreen extends StatefulWidget {
   final String token;

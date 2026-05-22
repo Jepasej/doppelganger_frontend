@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'api_service.dart';
 
 /// Service class responsible for login.
+
 /// The service layer keeps HTTP logic away from the UI.
 class AuthService {
   /// Logs in the user.
