@@ -16,32 +16,9 @@ class SocketService {
   String? currentToken;
 
   /// Connects to realtime updates.
-  /// Right now this method uses a fake delayed critical measurement.
   void connect(String token) {
     currentToken = token;
 
-    // -------------------------------------------------------------------------
-    // FAKE WEBSOCKET EVENT FOR FRONTEND TESTING WITHOUT BACKEND
-    // -------------------------------------------------------------------------
-    Future.delayed(const Duration(seconds: 5), () {
-      _openCriticalMeasurementScreen(
-        Measurement(
-          id: '99',
-          citizenId: '1',
-          citizenName: 'Bent Hansen',
-          citizenPhoneNumber: '+45 12 34 56 78',
-          pulse: 145,
-          spo2: 82,
-          createdAt: DateTime.now(),
-          isCritical: true,
-        ),
-      );
-    });
-
-    // -------------------------------------------------------------------------
-    // REAL BACKEND WEBSOCKET CODE - USE THIS WHEN NESTJS BACKEND IS READY
-    // -------------------------------------------------------------------------
-    /*
     socket = io.io(
       ApiService.baseUrl,
       io.OptionBuilder()
@@ -66,7 +43,6 @@ class SocketService {
     socket!.onDisconnect((_) {
       debugPrint('Disconnected from WebSocket');
     });
-    */
   }
 
   /// Opens the critical screen no matter which screen the user is currently on.
