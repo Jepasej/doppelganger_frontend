@@ -4,7 +4,6 @@ import '../services/socket_service.dart';
 import 'citizen_list_screen.dart';
 
 /// Login screen for healthcare staff.
-
 /// StatefulWidget is used because the input fields and loading state can change.
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -25,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? errorMessage;
 
   /// Logs in the user through the backend.
-  /// If login succeeds, a WebSocket connection is created.
+  /// If login succeeds, tokens are stored and WebSocket is connected.
   Future<void> login() async {
     setState(() {
       isLoading = true;
@@ -33,19 +32,19 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final token = await authService.login(
+      final accessToken = await authService.login(
         usernameController.text,
         passwordController.text,
       );
 
-      SocketService.instance.connect(token);
+      SocketService.instance.connect(accessToken);
 
       if (!mounted) return;
 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => CitizenListScreen(token: token),
+          builder: (context) => const CitizenListScreen(),
         ),
       );
     } catch (error) {
@@ -92,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextField(
                     controller: usernameController,
                     decoration: const InputDecoration(
-                      labelText: 'Username',
+                      labelText: 'Email',
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -115,7 +114,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ElevatedButton(
                     onPressed: isLoading ? null : login,
                     child: isLoading
-                        ? const CircularProgressIndicator()
+                        ? const SizedBox(
+                            height: 22,
+                            width: 22,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
                         : const Text('Login'),
                   ),
                 ],

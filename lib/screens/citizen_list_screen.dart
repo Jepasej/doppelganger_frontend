@@ -5,15 +5,9 @@ import '../widgets/citizen_card.dart';
 import 'citizen_detail_screen.dart';
 
 /// Screen that shows all citizens.
-
 /// This is the normal screen shown after login.
 class CitizenListScreen extends StatefulWidget {
-  final String token;
-
-  const CitizenListScreen({
-    super.key,
-    required this.token,
-  });
+  const CitizenListScreen({super.key});
 
   @override
   State<CitizenListScreen> createState() => _CitizenListScreenState();
@@ -38,7 +32,7 @@ class _CitizenListScreenState extends State<CitizenListScreen> {
   /// Fetches citizens from the service layer and updates the UI.
   Future<void> loadCitizens() async {
     try {
-      final result = await citizenService.getCitizens(widget.token);
+      final result = await citizenService.getCitizens();
 
       setState(() {
         citizens = result;
@@ -59,7 +53,6 @@ class _CitizenListScreenState extends State<CitizenListScreen> {
       MaterialPageRoute(
         builder: (context) => CitizenDetailScreen(
           citizen: citizen,
-          token: widget.token,
         ),
       ),
     );
@@ -75,6 +68,7 @@ class _CitizenListScreenState extends State<CitizenListScreen> {
 
     if (errorMessage != null) {
       return Scaffold(
+        appBar: AppBar(title: const Text('Citizens')),
         body: Center(child: Text(errorMessage!)),
       );
     }

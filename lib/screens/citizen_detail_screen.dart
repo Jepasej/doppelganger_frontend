@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import '../models/citizen.dart';
 import '../models/measurement.dart';
+import '../services/auth_service.dart';
 import '../services/measurement_service.dart';
+import '../services/socket_service.dart';
 import '../widgets/measurement_card.dart';
 import '../widgets/measurement_chart.dart';
+import 'login_screen.dart';
 
 /// Detail screen for one citizen.
-
 /// Shows citizen information, latest measurements and a chart.
 class CitizenDetailScreen extends StatefulWidget {
   final Citizen citizen;
-  final String token;
 
   const CitizenDetailScreen({
     super.key,
     required this.citizen,
-    required this.token,
   });
 
   @override
@@ -26,6 +26,7 @@ class CitizenDetailScreen extends StatefulWidget {
 /// It stores the measurements and the selected chart type.
 class _CitizenDetailScreenState extends State<CitizenDetailScreen> {
   final MeasurementService measurementService = MeasurementService();
+  final AuthService authService = AuthService();
 
   List<Measurement> measurements = [];
   bool isLoading = true;
@@ -47,7 +48,6 @@ class _CitizenDetailScreenState extends State<CitizenDetailScreen> {
     try {
       final result = await measurementService.getMeasurementsForCitizen(
         widget.citizen.id,
-        widget.token,
       );
 
       setState(() {
@@ -62,11 +62,19 @@ class _CitizenDetailScreenState extends State<CitizenDetailScreen> {
     }
   }
 
-  /// Signs the user off and returns to the first screen.
-  void signOff() {
-    Navigator.popUntil(
+  /// Signs the user off by clearing tokens, closing WebSocket and returning to login.
+  Future<void> signOff() async {
+    await authService.signOff();
+    SocketService.instance.disconnect();
+
+    if (!mounted) return;
+
+    Navigator.pushAndRemoveUntil(
       context,
-      (route) => route.isFirst,
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+      (route) => false,
     );
   }
 
@@ -112,8 +120,6 @@ class _CitizenDetailScreenState extends State<CitizenDetailScreen> {
                                     measurement: measurement,
                                   ),
                                 const Spacer(),
-
-                                /// Sign off button in the bottom right corner.
                                 Align(
                                   alignment: Alignment.bottomRight,
                                   child: ElevatedButton.icon(

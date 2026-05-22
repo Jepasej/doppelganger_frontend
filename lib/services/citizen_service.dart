@@ -1,23 +1,15 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import '../models/citizen.dart';
-import 'api_service.dart';
+import 'api_client_service.dart';
 
-/// Service class responsible for citizens.
-/// This class fetches citizens from the backend or returns fake data for testing.
+/// Service responsible for citizen data.
+/// This service uses ApiClientService so token handling is centralized.
 class CitizenService {
+  final ApiClientService apiClientService = ApiClientService();
 
-  /// Gets all citizens.
-  /// Right now this method uses fake data so the frontend can be tested without backend.
-  Future<List<Citizen>> getCitizens(String token) async {
-    final url = Uri.parse('${ApiService.baseUrl}/citizens');
-
-    final response = await http.get(
-      url,
-      headers: {
-        'Authorization': 'Bearer $token',
-      },
-    );
+  /// Gets all citizens from the backend.
+  Future<List<Citizen>> getCitizens() async {
+    final response = await apiClientService.get('/citizens');
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load citizens');
