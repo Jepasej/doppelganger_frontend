@@ -21,17 +21,4 @@ class MeasurementService {
 
     return data.map((item) => Measurement.fromJson(item)).toList();
   }
-
-  /// GETS ALL CRITICAL MEASUREMENTS FROM THE BACKEND
-  Future<List<Measurement>> getCriticalMeasurements() async {
-    final response = await apiClientService.get('/measurements/critical');
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load critical measurements');
-    }
-
-    final List data = jsonDecode(response.body);
-
-    return data.map((item) => Measurement.fromJson(item)).toList();
-  }
 }
