@@ -37,7 +37,7 @@ class SseService {
 
     final request = http.Request(
       'GET',
-      Uri.parse('${ApiService.baseUrl}/measurements/critical/stream'),
+      Uri.parse('${ApiService.baseUrl}/measurements/critical'), 
     );
 
     request.headers.addAll({
