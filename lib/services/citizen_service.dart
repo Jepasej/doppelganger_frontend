@@ -3,7 +3,7 @@ import '../models/citizen.dart';
 import 'api_client_service.dart';
 
 /// Service responsible for citizen data.
-/// This service uses ApiClientService so token handling is centralized.
+/// Uses ApiClientService so authentication and token handling are centralized.
 class CitizenService {
   final ApiClientService apiClientService = ApiClientService();
 

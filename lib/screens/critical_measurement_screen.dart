@@ -4,7 +4,7 @@ import '../models/measurement.dart';
 import 'citizen_detail_screen.dart';
 
 /// Screen shown when a critical measurement is received.
-/// This screen can be opened globally by the WebSocket service.
+/// Opened globally through Server-Sent Events.
 class CriticalMeasurementScreen extends StatelessWidget {
   final Measurement measurement;
 
@@ -13,8 +13,7 @@ class CriticalMeasurementScreen extends StatelessWidget {
     required this.measurement,
   });
 
-  /// Opens the citizen detail screen for the citizen
-  /// related to the critical measurement.
+  /// Opens the citizen detail screen related to the critical measurement.
   void openCitizenDetailScreen(BuildContext context) {
     Navigator.pushReplacement(
       context,

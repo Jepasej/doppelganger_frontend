@@ -17,22 +17,22 @@ class TokenStorageService {
     await _storage.write(key: _refreshTokenKey, value: refreshToken);
   }
 
-  /// Reads the current access token.
+  /// Reads the current access token from storage.
   Future<String?> getAccessToken() async {
     return _storage.read(key: _accessTokenKey);
   }
 
-  /// Reads the current refresh token.
+  /// Reads the current refresh token from storage.     
   Future<String?> getRefreshToken() async {
     return _storage.read(key: _refreshTokenKey);
   }
 
-  /// Updates the access token after a successful refresh.
+  /// Updates the access token after a successful token refresh.
   Future<void> saveAccessToken(String accessToken) async {
     await _storage.write(key: _accessTokenKey, value: accessToken);
   }
 
-  /// Deletes both tokens when the user signs off.
+  /// Deletes both tokens when the healthcare worker signs off.
   Future<void> clearTokens() async {
     await _storage.delete(key: _accessTokenKey);
     await _storage.delete(key: _refreshTokenKey);

@@ -4,8 +4,8 @@ import '../services/citizen_service.dart';
 import '../widgets/citizen_card.dart';
 import 'citizen_detail_screen.dart';
 
-/// Screen that shows all citizens.
-/// This is the normal screen shown after login.
+/// Screen displaying all citizens.
+/// This is the default screen shown after successful login.
 class CitizenListScreen extends StatefulWidget {
   const CitizenListScreen({super.key});
 
@@ -22,14 +22,14 @@ class _CitizenListScreenState extends State<CitizenListScreen> {
   bool isLoading = true;
   String? errorMessage;
 
-  /// Loads citizens when the screen opens.
+  //// Loads citizens from the backend when the screen opens.
   @override
   void initState() {
     super.initState();
     loadCitizens();
   }
 
-  /// Fetches citizens from the service layer and updates the UI.
+  // Fetches citizens through the service layer and updates the UI.
   Future<void> loadCitizens() async {
     try {
       final result = await citizenService.getCitizens();

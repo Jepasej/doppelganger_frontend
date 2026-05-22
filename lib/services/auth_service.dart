@@ -4,7 +4,7 @@ import 'api_service.dart';
 import 'token_storage_service.dart';
 
 /// Service responsible for authentication.
-/// It handles login, token storage and refreshing access tokens.
+/// Handles login, JWT token storage and access token refresh.
 class AuthService {
   final TokenStorageService tokenStorageService = TokenStorageService();
 
@@ -40,7 +40,7 @@ class AuthService {
     return accessToken;
   }
 
-  /// Uses the refresh token to request a new access token.
+  /// Uses the refresh token to request a new access token from the backend.
   Future<String> refreshAccessToken() async {
     final refreshToken = await tokenStorageService.getRefreshToken();
 

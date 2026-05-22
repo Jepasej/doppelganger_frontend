@@ -4,9 +4,10 @@ import 'api_service.dart';
 import 'auth_service.dart';
 import 'token_storage_service.dart';
 
-/// Central HTTP service for the app.
-/// This service automatically attaches the access token to requests.
-/// If the backend returns 401, it tries to refresh the access token and retry.
+/// Central HTTP service for the application.
+/// Automatically attaches JWT access tokens to requests.
+/// If the backend returns 401 Unauthorized, the service automatically
+/// requests a new access token using the refresh token and retries the request.
 class ApiClientService {
   final TokenStorageService tokenStorageService = TokenStorageService();
   final AuthService authService = AuthService();

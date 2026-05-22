@@ -3,11 +3,11 @@ import '../models/measurement.dart';
 import 'api_client_service.dart';
 
 /// Service responsible for measurement data.
-/// This service uses ApiClientService so token handling is centralized.
+/// Uses ApiClientService so authentication and token handling are centralized.
 class MeasurementService {
   final ApiClientService apiClientService = ApiClientService();
 
-  /// GETS MEASUREMENTS FOR ONE CITIZEN 
+  /// GETS MEASUREMENTS FOR ONE CITIZEN FROM THE BACKEND
   Future<List<Measurement>> getMeasurementsForCitizen(String citizenId) async {
     final response = await apiClientService.get(
       '/citizens/$citizenId/measurements',
@@ -22,7 +22,7 @@ class MeasurementService {
     return data.map((item) => Measurement.fromJson(item)).toList();
   }
 
-  /// GETS ALL CRITICAL MEASUREMENTS 
+  /// GETS ALL CRITICAL MEASUREMENTS FROM THE BACKEND
   Future<List<Measurement>> getCriticalMeasurements() async {
     final response = await apiClientService.get('/measurements/critical');
 

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
-import '../services/socket_service.dart';
+import '../services/sse_service.dart';
 import 'citizen_list_screen.dart';
 
 /// Login screen for healthcare staff.
+/// Healthcare workers authenticate through the NestJS backend using JWT.
 /// StatefulWidget is used because the input fields and loading state can change.
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,8 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   String? errorMessage;
 
-  /// Logs in the user through the backend.
-  /// If login succeeds, tokens are stored and WebSocket is connected.
+  /// Logs in the healthcare worker through the backend.
+  /// If login succeeds, tokens are stored securely and SSE connection is started.
   Future<void> login() async {
     setState(() {
       isLoading = true;
@@ -37,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         passwordController.text,
       );
 
-      SocketService.instance.connect(accessToken);
+      await SseService.instance.connect();
 
       if (!mounted) return;
 
@@ -59,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   /// Disposes controllers when the screen is removed.
-  /// This helps avoid memory leaks.
+  /// This helps prevent memory leaks.
   @override
   void dispose() {
     usernameController.dispose();

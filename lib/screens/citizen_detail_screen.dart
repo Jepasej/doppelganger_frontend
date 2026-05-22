@@ -3,13 +3,13 @@ import '../models/citizen.dart';
 import '../models/measurement.dart';
 import '../services/auth_service.dart';
 import '../services/measurement_service.dart';
-import '../services/socket_service.dart';
+import '../services/sse_service.dart';
 import '../widgets/measurement_card.dart';
 import '../widgets/measurement_chart.dart';
 import 'login_screen.dart';
 
 /// Detail screen for one citizen.
-/// Shows citizen information, latest measurements and a chart.
+/// Displays citizen information, latest measurements and charts.
 class CitizenDetailScreen extends StatefulWidget {
   final Citizen citizen;
 
@@ -23,7 +23,7 @@ class CitizenDetailScreen extends StatefulWidget {
 }
 
 /// State class for the citizen detail screen.
-/// It stores the measurements and the selected chart type.
+/// Stores measurements, loading state and selected chart type.
 class _CitizenDetailScreenState extends State<CitizenDetailScreen> {
   final MeasurementService measurementService = MeasurementService();
   final AuthService authService = AuthService();
@@ -62,10 +62,10 @@ class _CitizenDetailScreenState extends State<CitizenDetailScreen> {
     }
   }
 
-  /// Signs the user off by clearing tokens, closing WebSocket and returning to login.
+  /// Signs the off the health care worker by clearing tokens, disconnects SSE and returns to login screen.
   Future<void> signOff() async {
     await authService.signOff();
-    SocketService.instance.disconnect();
+    await SseService.instance.disconnect();
 
     if (!mounted) return;
 
