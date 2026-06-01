@@ -20,3 +20,4 @@ class CitizenService {
     return data.map((item) => Citizen.fromJson(item)).toList();
   }
 }
+
