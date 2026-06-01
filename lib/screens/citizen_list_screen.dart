@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/citizen.dart';
+import '../services/auth_service.dart';
 import '../services/citizen_service.dart';
 import '../widgets/citizen_card.dart';
 import 'citizen_detail_screen.dart';
@@ -17,19 +18,19 @@ class CitizenListScreen extends StatefulWidget {
 /// It stores the list of citizens loaded from the backend.
 class _CitizenListScreenState extends State<CitizenListScreen> {
   final CitizenService citizenService = CitizenService();
+  final AuthService authService = AuthService();
 
   List<Citizen> citizens = [];
   bool isLoading = true;
   String? errorMessage;
 
-  //// Loads citizens from the backend when the screen opens.
   @override
   void initState() {
     super.initState();
     loadCitizens();
   }
 
-  // Fetches citizens through the service layer and updates the UI.
+  /// Fetches citizens through the service layer and updates the UI.
   Future<void> loadCitizens() async {
     try {
       final result = await citizenService.getCitizens();
@@ -43,6 +44,49 @@ class _CitizenListScreenState extends State<CitizenListScreen> {
         errorMessage = 'Could not load citizens';
         isLoading = false;
       });
+    }
+  }
+
+  /// Calls the backend admin endpoint and shows the result to the user.
+  Future<void> checkAdminAccess() async {
+    try {
+      final hasAdminAccess = await authService.checkAdminAccess();
+
+      if (!mounted) return;
+
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Admin'),
+          content: Text(
+            hasAdminAccess
+                ? 'Admin adgang bekræftet.'
+                : 'Du har ikke adminrettigheder.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } catch (error) {
+      if (!mounted) return;
+
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Fejl'),
+          content: const Text('Admin-adgang kunne ikke kontrolleres.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
     }
   }
 
@@ -76,6 +120,12 @@ class _CitizenListScreenState extends State<CitizenListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Citizens'),
+        actions: [
+          TextButton(
+            onPressed: checkAdminAccess,
+            child: const Text('Admin'),
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: citizens.length,

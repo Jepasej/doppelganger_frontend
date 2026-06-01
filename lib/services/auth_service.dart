@@ -72,6 +72,36 @@ class AuthService {
     return newAccessToken;
   }
 
+  /// Calls an admin-protected backend endpoint.
+  /// Returns true if the user has admin access.
+  /// Returns false if the backend rejects the request with 403 Forbidden.
+  Future<bool> checkAdminAccess() async {
+    final accessToken = await tokenStorageService.getAccessToken();
+
+    if (accessToken == null) {
+      throw Exception('No access token found');
+    }
+
+    final url = Uri.parse('${ApiService.baseUrl}/authentication/admin-demo');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    }
+
+    if (response.statusCode == 403) {
+      return false;
+    }
+
+    throw Exception('Could not check admin access');
+  }
+
   /// Signs off the user by deleting stored tokens.
   Future<void> signOff() async {
     await tokenStorageService.clearTokens();
