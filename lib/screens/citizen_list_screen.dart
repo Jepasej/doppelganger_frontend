@@ -121,9 +121,13 @@ class _CitizenListScreenState extends State<CitizenListScreen> {
       appBar: AppBar(
         title: const Text('Citizens'),
         actions: [
-          TextButton(
-            onPressed: checkAdminAccess,
-            child: const Text('Admin'),
+          Semantics(
+            label: 'Admin button',
+            button: true,
+            child: TextButton(
+              onPressed: checkAdminAccess,
+              child: const Text('Admin'),
+            ),
           ),
         ],
       ),

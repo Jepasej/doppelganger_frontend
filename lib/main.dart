@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'navigation/app_navigator.dart';
 import 'screens/login_screen.dart';
 
 /// Entry point for the Flutter application.
 /// This starts the app and shows the login screen first.
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Enables semantics so Playwright can locate UI elements in Flutter Web.
+  SemanticsBinding.instance.ensureSemantics();
+
   runApp(const DoppelgaengerApp());
 }
 

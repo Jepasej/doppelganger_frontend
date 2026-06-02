@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final accessToken = await authService.login(
+      await authService.login(
         usernameController.text,
         passwordController.text,
       );
@@ -89,38 +89,57 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  TextField(
-                    controller: usernameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      border: OutlineInputBorder(),
+
+                  Semantics(
+                    label: 'Email input',
+                    textField: true,
+                    child: TextField(
+                      controller: usernameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Email',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
                   ),
+
                   const SizedBox(height: 12),
-                  TextField(
-                    controller: passwordController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      border: OutlineInputBorder(),
+
+                  Semantics(
+                    label: 'Password input',
+                    textField: true,
+                    child: TextField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Password',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
                   ),
+
                   const SizedBox(height: 16),
+
                   if (errorMessage != null)
                     Text(
                       errorMessage!,
                       style: const TextStyle(color: Colors.red),
                     ),
+
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: isLoading ? null : login,
-                    child: isLoading
-                        ? const SizedBox(
-                            height: 22,
-                            width: 22,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Text('Login'),
+
+                  Semantics(
+                    label: 'Login button',
+                    button: true,
+                    child: ElevatedButton(
+                      onPressed: isLoading ? null : login,
+                      child: isLoading
+                          ? const SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Text('Login'),
+                    ),
                   ),
                 ],
               ),
